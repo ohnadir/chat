@@ -20,7 +20,7 @@ const updateProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     try {
         const { name, email, phone, address } = req.body;
         // check user of the existing user in database
-        const user = yield index_1.default.user.findUnique({ where: { id: parseInt(req.params.id) } });
+        const user = yield index_1.default.user.findUnique({ where: { id: req.params.id } });
         if (!user) {
             return res.status(422).send({ message: "Incorrect credential" });
         }
@@ -42,7 +42,7 @@ const updateProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         }
         // Update the profile information by condition
         const update_user = yield index_1.default.user.update({
-            where: { id: parseInt(req.params.id) },
+            where: { id: req.params.id },
             data: {
                 name: name && user.name === name ? user.name : name,
                 phone: phone && user.phone === phone ? user.phone : phone,
@@ -76,7 +76,7 @@ exports.users = users;
 const user = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // check user by id of the existing user in database
-        const user = yield index_1.default.user.findUnique({ where: { id: parseInt(req.params.id) } });
+        const user = yield index_1.default.user.findUnique({ where: { id: req.params.id } });
         if (!user) {
             return res.status(404).send({ message: "No User found by this ID" });
         }
@@ -92,7 +92,7 @@ const change_password = (req, res) => __awaiter(void 0, void 0, void 0, function
     try {
         const { password } = req.body;
         // check user by id of the existing user in database
-        const user = yield index_1.default.user.findUnique({ where: { id: parseInt(req.params.id) } });
+        const user = yield index_1.default.user.findUnique({ where: { id: req.params.id } });
         if (!user) {
             return res.status(404).send({ message: "No User found by this id" });
         }
@@ -100,7 +100,7 @@ const change_password = (req, res) => __awaiter(void 0, void 0, void 0, function
         const hashedPassword = yield (0, utils_1.passwordHashed)(password);
         // updated password
         const update_user = yield index_1.default.user.update({
-            where: { id: parseInt(req.params.id) },
+            where: { id: req.params.id },
             data: {
                 password: hashedPassword && hashedPassword
             },
@@ -116,11 +116,11 @@ exports.change_password = change_password;
 const delete_user = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // check user by id of the existing user in database
-        const user = yield index_1.default.user.findUnique({ where: { id: parseInt(req.params.id) } });
+        const user = yield index_1.default.user.findUnique({ where: { id: req.params.id } });
         if (!user) {
             return res.status(404).send({ message: "No User found by this ID" });
         }
-        yield index_1.default.user.delete({ where: { id: parseInt(req.params.id) } });
+        yield index_1.default.user.delete({ where: { id: req.params.id } });
         res.status(200).send({ message: "Delete User" });
     }
     catch (error) {

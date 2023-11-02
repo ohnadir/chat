@@ -9,7 +9,7 @@ export const updateProfile = async (req:Request, res:Response) => {
         const { name, email, phone, address } = req.body;
 
         // check user of the existing user in database
-        const user = await prisma.user.findUnique({ where: { id : parseInt(req.params.id) }});
+        const user = await prisma.user.findUnique({ where: { id : req.params.id }});
         if (!user) {
             return res.status(422).send({ message: "Incorrect credential"});
         }
@@ -34,7 +34,7 @@ export const updateProfile = async (req:Request, res:Response) => {
 
         // Update the profile information by condition
         const update_user = await prisma.user.update({
-            where: { id : parseInt(req.params.id) },
+            where: { id : req.params.id},
             data: { 
                 name : name && user.name === name ? user.name : name,
                 phone : phone &&  user.phone === phone ? user.phone : phone,
@@ -71,7 +71,7 @@ export const user = async(req:Request, res:Response)=>{
     try {
 
         // check user by id of the existing user in database
-        const user = await prisma.user.findUnique({ where: { id: parseInt(req.params.id)}});
+        const user = await prisma.user.findUnique({ where: { id: req.params.id}});
         if (!user) {
             return res.status(404).send({ message: "No User found by this ID"});
         }
@@ -87,7 +87,7 @@ export const change_password = async(req:Request, res:Response)=>{
         const { password } = req.body;
 
         // check user by id of the existing user in database
-        const user = await prisma.user.findUnique({ where: { id: parseInt(req.params.id)}});
+        const user = await prisma.user.findUnique({ where: { id: req.params.id}});
         if (!user) {
             return res.status(404).send({ message: "No User found by this id"});
         }
@@ -97,7 +97,7 @@ export const change_password = async(req:Request, res:Response)=>{
 
         // updated password
         const update_user = await prisma.user.update({
-            where: { id : parseInt(req.params.id) },
+            where: { id : req.params.id },
             data: { 
                 password : hashedPassword && hashedPassword 
             },
@@ -114,12 +114,12 @@ export const delete_user = async(req:Request, res:Response)=>{
     try {
 
         // check user by id of the existing user in database
-        const user = await prisma.user.findUnique({ where: { id: parseInt(req.params.id)}});
+        const user = await prisma.user.findUnique({ where: { id: req.params.id}});
         if (!user) {
             return res.status(404).send({ message: "No User found by this ID"});
         }
 
-        await prisma.user.delete({  where: { id: parseInt(req.params.id)}})
+        await prisma.user.delete({  where: { id: req.params.id}})
         res.status(200).send({ message: "Delete User" });
         
     } catch (error) {

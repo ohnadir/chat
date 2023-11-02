@@ -27,7 +27,7 @@ export const registration = async (req:Request, res:Response) => {
         // Create a new user
         const newUser = await prisma.user.create({
             data: {
-                id: Number(uuidToNumber(uuid())),
+                id: Number(uuidToNumber(uuid())).toString(),
                 email,
                 phone,
                 name,

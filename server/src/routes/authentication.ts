@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 export const router = Router();
 
 import { registration, login, loadUser } from '../controller/authentication';

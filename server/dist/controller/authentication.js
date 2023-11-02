@@ -35,7 +35,7 @@ const registration = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         // Create a new user
         const newUser = yield index_1.default.user.create({
             data: {
-                id: Number((0, convertNumber_1.default)((0, uuid_1.v4)())),
+                id: Number((0, convertNumber_1.default)((0, uuid_1.v4)())).toString(),
                 email,
                 phone,
                 name,
