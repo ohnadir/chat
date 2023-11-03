@@ -4,7 +4,7 @@ import { FaFacebookMessenger } from 'react-icons/fa';
 
 const Navbar: React.FC = () => {
   return (
-    <div className='max-w-7xl mx-auto px-10 navbar'>
+    <div className='navbar'>
       <div className='navbar-container'>
         <div className='desktop-brand-name'>Chat</div>
         <div className='mobile-brand-name'>CC</div>
