@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,19 +7,52 @@ datasource db {
   url      = env("CONNECTION_URL")
 }
 
-enum Role {
-  user
-  admin
+model User {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  email         String    @unique
+  password      String
+  profileImg    String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  activeStatus  Boolean   @default(false)
 }
 
-model User {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  phone       String   @unique
-  email       String   @unique
-  password    String
-  address     String
-  role        Role     @default(user)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+enum Type {
+  text
+  image
+  video
+  voice
+}
+
+model Chat {
+  id         String  @id @default(uuid()) @map("_id")
+  chatId     String  @db.ObjectId
+  sender     String  @db.ObjectId
+  reciver    String  @db.ObjectId
+  message    String?
+  type       Type   @default(text)
+  image      String?
+  video      String?
+  seenBy     String[] @db.ObjectId
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+
+enum ChatType {
+  private
+  group
+}
+
+model ChatList {
+  id            String       @id @default(uuid())  @map("_id")
+  createUser    String  @db.ObjectId
+  participent   String  @db.ObjectId
+  chatType      ChatType @default(private)
+  groupName     String?
+  groupImg      String?
+  lastMessage   String  @db.ObjectId
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }
